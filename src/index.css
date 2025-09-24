@@ -1,0 +1,100 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+/* Animated green-yellow-peach-white background */
+body {
+  background: linear-gradient(
+    135deg,
+    #2e8b57,   /* sea green */
+    #90ee90,   /* light green */
+    #ffffcc,   /* soft yellow */
+    #ffe5b4,   /* peach */
+    #ffffff    /* white */
+  );
+  background-size: 500% 500%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Centered layout */
+.centered {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Watermark Chinese GO (围棋) */
+body::before {
+  content: "围棋"; /* Chinese for GO */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.08); /* very faint */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Headings */
+h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  text-shadow: 0 0 5px #fff;
+}
+
+/* Input fields */
+.input-field {
+  margin: 0.5rem 0;
+  padding: 12px;
+  width: 280px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #2e8b57;
+  box-shadow: 0 0 10px #90ee90;
+}
+
+/* Buttons */
+button {
+  margin-top: 1rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(to right, #2e8b57, #ffe5b4);
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #2e8b57;
+}
