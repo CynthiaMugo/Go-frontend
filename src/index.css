@@ -1,3 +1,6 @@
+/* =========================
+   GLOBAL STYLES
+========================= */
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -7,94 +10,202 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Animated green-yellow-peach-white background */
+/* Background: pale green, peach, yellow */
 body {
   background: linear-gradient(
     135deg,
-    #2e8b57,   /* sea green */
-    #90ee90,   /* light green */
-    #ffffcc,   /* soft yellow */
-    #ffe5b4,   /* peach */
-    #ffffff    /* white */
+    #98FB98,  /* pale green */
+    #FFDAB9,  /* peach */
+    #FFD700   /* golden yellow */
   );
-  background-size: 500% 500%;
-  animation: gradientShift 20s ease infinite;
+  background-size: 300% 300%;
+  animation: gradientShift 18s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Centered layout */
-.centered {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-
-/* Watermark Chinese GO (围棋) */
+/* Watermark Chinese GO */
 body::before {
-  content: "围棋"; /* Chinese for GO */
+  content: "围棋";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 15rem;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.08); /* very faint */
+  color: rgba(0, 0, 0, 0.05);
   z-index: 1;
   pointer-events: none;
 }
 
-/* Headings */
-h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  color: #1a1a1a;
-  text-shadow: 0 0 5px #fff;
+/* =========================
+   CENTERED INPUTS
+========================= */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
 }
 
-/* Input fields */
 .input-field {
   margin: 0.5rem 0;
-  padding: 12px;
-  width: 280px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 14px 18px;
+  width: 300px;
+  border-radius: 12px;
+  border: none;
   font-size: 1rem;
+  background: rgba(30, 30, 30, 0.85);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(0,255,200,0.3);
   text-align: center;
   transition: all 0.3s ease;
 }
 
-.input-field:focus {
-  outline: none;
-  border-color: #2e8b57;
-  box-shadow: 0 0 10px #90ee90;
+.input-field::placeholder {
+  color: #bbb;
 }
 
-/* Buttons */
+.input-field:focus {
+  outline: none;
+  background: rgba(50, 50, 50, 0.95);
+  box-shadow: 0 0 18px rgba(0,255,200,0.7), 0 0 25px rgba(138,43,226,0.6);
+  transform: scale(1.05);
+  color: #fff;
+}
+
 button {
   margin-top: 1rem;
   padding: 12px 28px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: none;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(to right, #2e8b57, #ffe5b4);
+  background: linear-gradient(to right, #FFD700, #FF8C00);
   color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #2e8b57;
+  transform: scale(1.08);
+  box-shadow: 0 0 22px #FFD700;
+}
+
+/* =========================
+   BOARD LAYOUT
+========================= */
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  z-index: 2;
+  position: relative;
+}
+
+.go-board-wrapper {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Go board (polished wood look) */
+.go-board {
+  width: 700px;
+  height: 700px;
+  background: #b87333; /* richer wood brown */
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.6) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+  background-size: calc(700px / 8) calc(700px / 8);
+  border: 6px solid #5C4033;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+  position: relative;
+}
+
+/* =========================
+   HOSHI POINTS
+========================= */
+.hoshi {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+/* =========================
+   STONES
+========================= */
+.stone {
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: stone-appear 0.3s forwards;
+  z-index: 5;
+  position: absolute;
+}
+
+.stone.black {
+  background: radial-gradient(circle at 25% 25%, #333, #000);
+  border: 1px solid #111;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.6);
+}
+
+.stone.white {
+  background: radial-gradient(circle at 30% 30%, #fff, #ddd);
+  border: 1px solid #bbb;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+
+@keyframes stone-appear {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  width: 230px;
+  background: rgba(25,25,25,0.92);
+  padding: 18px;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  height: fit-content;
+  box-shadow: 0 0 18px rgba(0,0,0,0.4);
+}
+
+.score-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.12);
+  font-weight: bold;
+  font-size: 1.2rem;
 }

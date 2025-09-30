@@ -1,3 +1,5 @@
+"use client";
+
 import { useNavigate } from "react-router-dom";
 
 function GameMenu() {
@@ -8,9 +10,10 @@ function GameMenu() {
       <h1>Game Menu</h1>
 
       <div className="flex flex-col md:flex-row gap-6 mt-8">
-        <button onClick={() => navigate("/game", { state: { name: "Player" } })}>
+        <button onClick={() => navigate("/board", { state: { name: "Player" } })}>
           Start Game
         </button>
+
         <button onClick={() => alert("Resuming your saved game...")}>
           Resume Game
         </button>
