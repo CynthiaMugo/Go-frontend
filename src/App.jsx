@@ -3,7 +3,7 @@ import SignUp from "./pages/SignUp";
 import MainMenu from "./pages/MainMenu";
 import GameMenu from "./pages/GameMenu";
 import Game from "./pages/Game";
-import GoBoard from "./pages/Go-board"; // ✅ make sure filename is exactly GoBoard.jsx
+import GoBoard from "./pages/Go-board"; // make sure filename is exactly GoBoard.jsx
 
 function App() {
   return (
