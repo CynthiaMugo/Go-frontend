@@ -1,89 +1,73 @@
-"use client";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../index.css";
 
-function AuthPage() {
+const API_URL = "http://localhost:5000";
+
+function SignUp() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false); // toggle mode
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Save multiple users
   const handleSignup = () => {
+    // Reset messages
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    // Basic frontend validation
     if (!name.trim() || !email.trim() || !password.trim()) {
-      alert("Please fill in all fields.");
+      setErrorMessage("Please fill in all fields.");
       return;
     }
     if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.");
+      setErrorMessage("Please enter a valid email address.");
       return;
     }
-    if (password.length < 8) {
-      alert("Password must be at least 8 characters long.");
-      return;
-    }
-
-    let users = JSON.parse(localStorage.getItem("goUsers")) || [];
-
-    // check if email already exists
-    if (users.some((user) => user.email === email)) {
-      alert("An account with this email already exists. Please log in.");
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters.");
       return;
     }
 
-    const newUser = { name, email, password };
-    users.push(newUser);
-    localStorage.setItem("goUsers", JSON.stringify(users));
+    setIsLoading(true);
 
-    navigate("/mainmenu", { state: { name, email } });
-  };
+    axios
+      .post(`${API_URL}/user/signup`, { name, email, password })
+      .then((res) => {
+        setSuccessMessage(res.data.message); 
+        setName("");
+        setEmail("");
+        setPassword("");
 
-  // Login checks multiple users
-  const handleLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      alert("Please enter your email and password.");
-      return;
-    }
-    if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("goUsers")) || [];
-    const foundUser = users.find(
-      (user) => user.email === email && user.password === password
-    );
-
-    if (!foundUser) {
-      alert("Invalid email or password.");
-      return;
-    }
-
-    setName(foundUser.name); // update state
-    navigate("/mainmenu", { state: { name: foundUser.name, email } });
+        // Navigate to login after signup
+        setTimeout(() => navigate("/login"), 1000); 
+      })
+      .catch((err) => {
+        setErrorMessage(
+          err?.response?.data?.error || "Error creating user, try again."
+        );
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <div className="centered">
-      <h1 style={{ color: "#fff" }}>
-        {isLogin ? "Login to Continue" : "Enter the World of Go"}
-      </h1>
+      <h1 style={{ color: "#fff" }}>Enter the World of Go</h1>
 
-      {!isLogin && (
-        <input
-          type="text"
-          placeholder="Enter your name"
-          className="input-field"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      )}
-
+      <input
+        type="text"
+        placeholder="Enter your name"
+        className="input-field"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <input
         type="email"
         placeholder="Enter your email"
@@ -91,7 +75,6 @@ function AuthPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-
       <input
         type="password"
         placeholder="Enter your password"
@@ -100,20 +83,22 @@ function AuthPage() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      {isLogin ? (
-        <button onClick={handleLogin}>Login</button>
-      ) : (
-        <button onClick={handleSignup}>Sign Up</button>
-      )}
-
-      <button
-        style={{ marginTop: "0.5rem", background: "#444" }}
-        onClick={() => setIsLogin(!isLogin)}
-      >
-        {isLogin ? "Need an account? Sign Up" : "Already have an account? Login"}
+      <button onClick={handleSignup} disabled={isLoading}>
+        {isLoading ? "Signing up..." : "Sign Up"}
       </button>
+
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+      <button
+          style={{ marginTop: "0.5rem", background: "#444", color: "#fff", padding: "0.5rem 1rem", cursor: "pointer" }}
+          onClick={() => navigate("/login")}
+        >
+          Already have an account? Login
+        </button>
+
+
     </div>
   );
 }
 
-export default AuthPage;
+export default SignUp;

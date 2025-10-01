@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 import MainMenu from "./pages/MainMenu";
 import GameMenu from "./pages/GameMenu";
 import Game from "./pages/Game";
@@ -10,6 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/mainmenu" element={<MainMenu />} />
         <Route path="/gamemenu" element={<GameMenu />} />
         <Route path="/game" element={<Game />} />

@@ -9,7 +9,9 @@ function MainMenu() {
     navigate("/gamemenu");
   };
 
-  const handleExit = () => alert("Exiting Game!");
+  const handleExit = () => {
+    navigate("/login");
+  }
 
   return (
     <div className="centered text-white">
