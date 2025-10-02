@@ -2,14 +2,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function MainMenu() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const playerName = location.state?.name || "Player";
+  // const location = useLocation();
+  const playerName = localStorage.getItem("playerName") || "Player";
 
   const handlePlay = () => {
     navigate("/gamemenu");
   };
 
-  const handleExit = () => alert("Exiting Game!");
+  const handleExit = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("playerName");
+    navigate("/login");
+  }
 
   return (
     <div className="centered text-white">
