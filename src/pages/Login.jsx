@@ -36,6 +36,7 @@ function Login() {
 
     //  store JWT token for authenticated requests
       localStorage.setItem("access_token", res.data.access_token);
+      localStorage.setItem("playerName", res.data.user.name);
 
       setTimeout(() => navigate("/mainmenu"), 600);
     } catch (err) {
