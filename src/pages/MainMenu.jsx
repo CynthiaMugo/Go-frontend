@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function MainMenu() {
   const navigate = useNavigate();
-  // const location = useLocation();
+
   const playerName = localStorage.getItem("playerName") || "Player";
 
   const handlePlay = () => {
