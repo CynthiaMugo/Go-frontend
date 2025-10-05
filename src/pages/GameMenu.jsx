@@ -33,6 +33,8 @@ function GameMenu() {
           scores: { black: 0, white: 0 },
           captured_white: 0,
           captured_black: 0,
+          player_color: "black", 
+          computer_color: "white",
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -72,6 +74,11 @@ function GameMenu() {
     }
   };
 
+   const logout = () => {
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  };
+
   return (
     <div className="centered menu-bg">
       <h1>Game Menu</h1>
@@ -87,6 +94,16 @@ function GameMenu() {
 
       {feedback && <p style={{ color: "green", marginTop: "1rem" }}>{feedback}</p>}
       {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
+
+      <div style={{ marginTop: "1rem" }}>
+      <button 
+        onClick={logout} 
+        style={{ backgroundColor: "#F59E0B", color: "white", padding: "0.6rem 1.2rem", border: "none", borderRadius: "6px", cursor: "pointer",fontWeight: "bold"
+        }}>
+        Logout
+      </button>
+    </div>
+
     </div>
   );
 }

@@ -30,19 +30,16 @@ function GoBoard() {
 
   // Save active game ID so we can use it for moves
   useEffect(() => {
-    if (game?.id) {
-      localStorage.setItem("active_game_id", game.id);
-    }
-  }, [game]);
-
-  // Rebuild game from history when resuming
-  useEffect(() => {
   if (!game) return;
 
+  if (game.id) {
+    localStorage.setItem("active_game_id", game.id);
+  }
+
+  // Restore stones from board or rebuild from history
   if (Array.isArray(game.board) && game.board.length > 0) {
     setStones(game.board);
-  } 
-  else if (game.history && game.history.length > 0) {
+  } else if (game.history && game.history.length > 0) {
     let replayStones = [];
     let replayCaptures = { black: 0, white: 0 };
 
@@ -57,15 +54,14 @@ function GoBoard() {
         }
       );
     });
+
     setStones(replayStones);
     setCaptures(replayCaptures);
   }
-
   setCurrentColor(game.turn || "black");
-  setPlayerColor(game.playerColor || "black");
-  setComputerColor(game.computerColor || "white");
+  setPlayerColor(game.player_color || "black");
+  setComputerColor(game.computer_color || "white");
 }, [game]);
-
 
   
   // Save move to backend
@@ -148,31 +144,38 @@ function GoBoard() {
 
   // Pass Turn calls backend /pass
   const passTurn = async () => {
-    if (gameOver) return;
+  if (gameOver) return;
 
-    const token = localStorage.getItem("access_token");
-    const gameId = localStorage.getItem("active_game_id");
-    if (!token || !gameId) return;
+  const token = localStorage.getItem("access_token");
+  const gameId = localStorage.getItem("active_game_id");
+  if (!token || !gameId) return;
 
-    const nextTurn = currentColor === "black" ? "white" : "black";
+  const nextTurn = currentColor === "black" ? "white" : "black";
 
-    try {
-      const res = await axios.post(
-        `${API_URL}/game/pass`,
-        {
-          board: stones,
-          turn: nextTurn,
-          state: "ongoing",
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setCurrentColor(res.data.turn);
-      setMessage("Turn passed successfully.");
-    } catch (err) {
-      console.error("Pass failed:", err.response?.data || err.message);
-      setMessage("Error passing turn.");
-    }
-  };
+  try {
+    const res = await axios.post(
+      `${API_URL}/game/pass`,
+      {
+        board: stones,
+        turn: nextTurn,
+        state: "ongoing",
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    setCurrentColor(res.data.turn);
+    setMessage("Turn passed successfully.");
+
+    setTimeout(() => setMessage(""), 2000);
+
+  } catch (err) {
+    console.error("Pass failed:", err.response?.data || err.message);
+    setMessage("Error passing turn.");
+
+    setTimeout(() => setMessage(""), 2000);
+  }
+};
+
 
   //  End Game calls backend /finish
   const endGame = async () => {
@@ -202,7 +205,7 @@ function GoBoard() {
       setMessage(`Game finished! Winner: ${winner}`);
       setTimeout(() => {
         navigate("/gamemenu");
-      }, 3000);
+      }, 5000);
 
     } catch (err) {
       console.error("Failed to finish game:", err.response?.data || err.message);
