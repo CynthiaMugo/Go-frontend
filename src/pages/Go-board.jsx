@@ -4,6 +4,8 @@ import "../index.css";
 import axios from "axios";
 import { placeStone } from "./gogame-logic";
 import { getComputerMove } from "./computerlogic";
+import { useLocation } from "react-router-dom";
+
 
 const API_URL = "http://localhost:5000";
 
@@ -23,13 +25,22 @@ function GoBoard() {
   const [captures, setCaptures] = useState({ black: 0, white: 0 });
   const [gameOver, setGameOver] = useState(false);
   const [lastPlayerMove, setLastPlayerMove] = useState(null);
-  const [gameState, setGameState] = useState(""); // "idle" | "ongoing" | "finished"
+  const [gameState, setGameState] = useState(""); 
   const [boardSize, setBoardSize] = useState(BOARD_SIZE);
 
   const computerThinkingRef = useRef(false);
   const cellSize = BOARD_PIXELS / (boardSize - 1);
 
   // --- Fetch Active Game (Resume Game) ---
+  const location = useLocation();
+  const { gameId, gameData } = location.state || {};
+
+  if (!gameId && !gameData) {
+    console.warn("No game data provided in route state");
+  }
+
+
+
   const resumeGame = async () => {
     try {
       const res = await axios.get(`${API_URL}/game/active`, getAuthHeaders());
@@ -48,13 +59,36 @@ function GoBoard() {
     }
   };
 
+  useEffect(() => {
+    if (gameData && Object.keys(gameData).length > 0) {
+      console.log("Resuming game from GameMenu:", gameData);
+      setStones(gameData.board || []);
+      setCaptures({
+        black: gameData.captured_black || 0,
+        white: gameData.captured_white || 0,
+      });
+      setCurrentColor(gameData.turn || "black");
+      setGameState(gameData.state || "ongoing");
+      setBoardSize(gameData.board_size || BOARD_SIZE);
+      setGameOver(gameData.state === "finished");
+    } else if (gameId) {
+      console.log("Fetching active game with ID:", gameId);
+      resumeGame();
+    } else {
+      console.log(" No gameId or gameData found. Showing selection screen.");
+    }
+
+  }, []);
+
+
+
+
   // --- Start New Game ---
   const startNewGame = async () => {
     try {
       const res = await axios.post(`${API_URL}/game/new`, {}, getAuthHeaders());
       const game = res.data;
 
-      // ✅ use backend data directly to avoid “board disappears” issue
       setStones(game.board || []);
       setCaptures({
         black: game.captured_black || 0,
@@ -214,11 +248,11 @@ function GoBoard() {
             </button>
           </div>
 
-          {/* ✅ Backend-connected buttons */}
-          <div style={{ marginTop: "1rem", display: "flex", gap: 10 }}>
+          {/* Backend-connected buttons */}
+          {/* <div style={{ marginTop: "1rem", display: "flex", gap: 10 }}>
             <button onClick={startNewGame}>Start New Game</button>
             <button onClick={resumeGame}>Resume Game</button>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="go-board-wrapper">

@@ -1,19 +1,18 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function MainMenu() {
   const navigate = useNavigate();
-  // const location = useLocation();
   const playerName = localStorage.getItem("playerName") || "Player";
 
   const handlePlay = () => {
-    navigate("/gamemenu");
+    navigate("/gamemenu", { state: {} });
   };
 
   const handleExit = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("playerName");
     navigate("/login");
-  }
+  };
 
   return (
     <div className="centered text-white">
@@ -28,3 +27,6 @@ function MainMenu() {
 }
 
 export default MainMenu;
+
+
+
