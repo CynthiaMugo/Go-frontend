@@ -36,7 +36,7 @@ function GoBoard() {
     localStorage.setItem("active_game_id", game.id);
   }
 
-  // Restore stones from board or rebuild from history
+  // Restore stones first
   if (Array.isArray(game.board) && game.board.length > 0) {
     setStones(game.board);
   } else if (game.history && game.history.length > 0) {
@@ -58,12 +58,26 @@ function GoBoard() {
     setStones(replayStones);
     setCaptures(replayCaptures);
   }
+
+  if (game.captured_black !== undefined && game.captured_white !== undefined) {
+    setCaptures({
+      black: game.captured_black,
+      white: game.captured_white,
+    });
+  }
+
+  if (game.scores) {
+    const { black, white } = game.scores;
+    console.log(`Resuming scores: Black ${black}, White ${white}`);
+  }
+
   setCurrentColor(game.turn || "black");
   setPlayerColor(game.player_color || "black");
   setComputerColor(game.computer_color || "white");
 }, [game]);
 
-  
+
+
   // Save move to backend
   const saveMove = async (player, x, y, updatedStones, updatedCaptures, nextTurn) => {
     const token = localStorage.getItem("access_token");
