@@ -1,16 +1,49 @@
-# React + Vite
+# Go Game Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fast React + Vite web app for playing the classic board game of Go.
 
-Currently, two official plugins are available:
+## About Go
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Go is an ancient strategy board game that originated in China over 4,000 years ago. Played by two opponents, the goal is to control more territory on the board than your rival by placing black and white stones. Go is renowned for its elegant simplicity and deep strategic complexity.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Responsive Go board UI
+- Play against computer AI
+- User authentication
+- Save and resume games
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/your-username/go-frontend.git
+   cd go-frontend
+   ```
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+3. **Start the development server:**
+   ```sh
+   npm run dev
+   ```
+4. **Open your browser:**  
+   Visit [http://localhost:5173](http://localhost:5173)
+
+## Structure
+
+- `src/pages/` — Game, menus, authentication
+- `src/components/` — UI elements
+
+## Contributors
+
+1. Cynthia Mugo  
+2. Horace Kauna  
+3. Ian Mabruk  
+4. Irene Murage  
+5. Wayne Muongi
+
+---
+
+Enjoy mastering the art of Go!
