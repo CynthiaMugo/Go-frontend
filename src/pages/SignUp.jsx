@@ -41,14 +41,14 @@ function SignUp() {
     axios
       .post(`${API_URL}/user/signup`, { name, email, password })
       .then((res) => {
-        localStorage.setItem("token", res.data.access_token);
+        localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("playerName", res.data.user.name);
         setSuccessMessage(res.data.message); 
         setName("");
         setEmail("");
         setPassword("");
 
-        // Navigate to login after signup
+        
         setTimeout(() => navigate("/mainmenu"), 1000); 
       })
       .catch((err) => {

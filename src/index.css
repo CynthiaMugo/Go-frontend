@@ -1,6 +1,4 @@
-/* =========================
-   GLOBAL STYLES
-========================= */
+
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -10,13 +8,12 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Background: pale green, peach, yellow */
 body {
   background: linear-gradient(
     135deg,
-    #98FB98,  /* pale green */
-    #FFDAB9,  /* peach */
-    #FFD700   /* golden yellow */
+    #98FB98,
+    #FFDAB9,  
+    #FFD700 
   );
   background-size: 300% 300%;
   animation: gradientShift 18s ease infinite;
@@ -32,7 +29,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* Watermark Chinese GO */
+
 body::before {
   content: "围棋";
   position: absolute;
@@ -46,9 +43,7 @@ body::before {
   pointer-events: none;
 }
 
-/* =========================
-   CENTERED INPUTS
-========================= */
+
 .centered {
   position: absolute;
   top: 50%;
@@ -109,9 +104,7 @@ button:hover {
   box-shadow: 0 0 22px #FFD700;
 }
 
-/* =========================
-   BOARD LAYOUT
-========================= */
+
 .board-container {
   display: flex;
   justify-content: center;
@@ -129,11 +122,11 @@ button:hover {
   justify-content: center;
 }
 
-/* Go board (polished wood look) */
+
 .go-board {
   width: 700px;
   height: 700px;
-  background: #b87333; /* richer wood brown */
+  background: #b87333;
   background-image: 
     linear-gradient(to right, rgba(0,0,0,0.6) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0,0,0,0.6) 1px, transparent 1px),
@@ -144,9 +137,7 @@ button:hover {
   position: relative;
 }
 
-/* =========================
-   HOSHI POINTS
-========================= */
+
 .hoshi {
   position: absolute;
   width: 10px;
@@ -157,9 +148,6 @@ button:hover {
   z-index: 3;
 }
 
-/* =========================
-   STONES
-========================= */
 .stone {
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -185,9 +173,6 @@ button:hover {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
-/* =========================
-   SIDEBAR
-========================= */
 .sidebar {
   width: 230px;
   background: rgba(25,25,25,0.92);
