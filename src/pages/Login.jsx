@@ -76,7 +76,7 @@ function Login() {
 
       <button
         style={{ marginTop: "0.5rem", background: "#444", color: "#fff", padding: "0.5rem 1rem", cursor: "pointer" }}
-        onClick={() => navigate("/signup")}
+        onClick={() => navigate("/")}
       >
         Need an account? Sign Up
       </button>
